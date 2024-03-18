@@ -7,6 +7,7 @@ const dbHost = process.env.DB_HOST;
 const dbName = process.env.DB_NAME;
 
 const DBURI = `mongodb+srv://${dbUser}:${dbPwd}@${dbHost}/${dbName}`;
+
 const connect = () => {
     mongoose.connect(DBURI)
         .then(() => {

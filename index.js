@@ -1,6 +1,6 @@
 require('dotenv').config();
-const Server = require('./src/models/server');
-const initDataBase = require('./src/config/dbConfig');
+const Server = require('./src/modelos/server');
+const initDataBase = require('./src/configuracion/db-config');
 const server = new Server();
 server.listen();
 initDataBase();

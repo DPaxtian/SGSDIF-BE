@@ -1,5 +1,6 @@
-const express = require('express');
+const express = require("express")
 const cors = require('cors');
+const { swaggerUi, especificaciones } = require('../configuracion/configuracion-swagger');
 
 class Server {
     constructor() {
@@ -7,6 +8,7 @@ class Server {
         this.port = process.env.PORT;
         this.middlewares();
         this.routes();
+        this.setupSwagger();
     }
 
 
@@ -18,7 +20,12 @@ class Server {
 
 
     routes() {
-        this.app.use('/api/v1/solicitudes', require('../routes/solicitudesRutas'));
+        this.app.use('/api/v1/solicitudes', require('../rutas/solicitudes-rutas'));
+    }
+
+    
+    setupSwagger() {
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(especificaciones));
     }
 
 

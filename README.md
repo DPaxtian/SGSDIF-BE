@@ -81,3 +81,9 @@ Instalacion MongoDB
 5. **Inicia MongoDB Compass:**
    Una vez instalado, abre MongoDB Compass desde el menú de inicio o desde la ubicación donde se instaló en tu sistema. MongoDB Compass puede conectarse automáticamente a la instancia local de MongoDB si está en ejecución. Si MongoDB no está en ejecución, Compass intentará conectarse la próxima vez que inicies MongoDB.
 
+---
+
+Documentacion
+
+1. Ejecutar el proyecto
+2. Acceder a la documentacion de swagger con el enlace: http://localhost:9000/api-docs/
