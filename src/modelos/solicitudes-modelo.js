@@ -21,28 +21,48 @@ const SolicitudesSchema = new mongoose.Schema(
         },
         apellido_materno: {
             type: String,
-            required: true
         },
         curp: {
             type: String,
             required: true
         },
         direccion: {
-            type: String,
-            required: true
+            calle:{
+                type: String,
+                required: true
+            },
+            colonia: {
+                type: String,
+                required: true
+            },
+            ciudad:{
+                type: String,
+                required: true
+            },
+            estado:{
+                type: String,
+                required: true
+            },
+            municipio:{
+                type: String,
+                required: true
+            },
+            no_exterior:{
+                type: String,
+                required: true
+            },
+            no_interior:{
+                type: String,
+                required: true
+            },
+            cp: {
+                type: String,
+                required: true
+            }
         },
-        colonia: {
-            type: String,
-            required: true
-        },
-        cp: {
-            type: String,
-            required: true
-        },
-        telefono: {
-            type: String,
-            required: true
-        },
+        telefonos: [
+
+        ],
         apoyo_solicitado: {
             type: String,
             required: true

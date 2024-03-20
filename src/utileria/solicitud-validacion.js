@@ -15,22 +15,44 @@ function validarSolicitudNoVacia(datosSolicitud) {
     if (datosSolicitud.apellido_paterno === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.apellido_materno === undefined)
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
     if (datosSolicitud.curp === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (datosSolicitud.direccion === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.colonia === undefined)
+    if (datosSolicitud.direccion.calle === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.cp === undefined)
+    if (datosSolicitud.direccion.colonia === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.telefono === undefined)
+    if (datosSolicitud.direccion.ciudad === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.estado === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.municipio === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+
+    if (datosSolicitud.direccion.cp === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.colonia === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.no_interior === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.no_exterior === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.direccion.cp === undefined)
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (datosSolicitud.telefonos.length === 0)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (datosSolicitud.apoyo_solicitado === undefined)
@@ -64,17 +86,41 @@ function validarDatosSolicitud(datosSolicitud) {
     if (!validarCURP(datosSolicitud.curp))
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (typeof datosSolicitud.direccion !== "string")
+    if (typeof datosSolicitud.direccion !== "object")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (typeof datosSolicitud.colonia !== "string")
+    if (typeof datosSolicitud.direccion.colonia !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (!validarCodigoPostal(datosSolicitud.cp))
+    if (typeof datosSolicitud.direccion.calle !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (!validarTelefono(datosSolicitud.telefono))
+    if (typeof datosSolicitud.direccion.colonia !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (typeof datosSolicitud.direccion.ciudad !== "string")
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (typeof datosSolicitud.direccion.estado !== "string")
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (typeof datosSolicitud.direccion.municipio !== "string")
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (typeof datosSolicitud.direccion.no_interior !== "string")
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (typeof datosSolicitud.direccion.no_exterior !== "string")
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    if (!validarCodigoPostal(datosSolicitud.direccion.cp))
+        resultadoValidacion = CodigosEstado.BAD_REQUEST;
+
+    datosSolicitud.telefonos.forEach(telefono => {
+        if (!validarTelefono(telefono)) {
+            resultadoValidacion = CodigosEstado.BAD_REQUEST;
+        }
+    });
 
     if (typeof datosSolicitud.apoyo_solicitado !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
@@ -87,33 +133,8 @@ function validarDatosSolicitud(datosSolicitud) {
 
 
 function validarCURP(curp) {
-    if (curp.length !== 18) {
-        return false;
-    }
-
-    for (let i = 0; i < 4; i++) {
-        if (!/[A-Z]/.test(curp.charAt(i))) {
-            return false;
-        }
-    }
-
-    for (let i = 4; i < 10; i++) {
-        if (!/\d/.test(curp.charAt(i))) {
-            return false;
-        }
-    }
-
-    for (let i = 10; i < 12; i++) {
-        if (!/[A-Z]/.test(curp.charAt(i))) {
-            return false;
-        }
-    }
-
-    if (!/[\dA-Z]/.test(curp.charAt(17))) {
-        return false;
-    }
-
-    return true;
+    const regexCurp = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/
+    return regexCurp.test(curp)
 }
 
 

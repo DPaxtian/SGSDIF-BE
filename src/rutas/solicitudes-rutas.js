@@ -24,9 +24,10 @@ const router = Router();
  *             type: object
  *             properties:
  *               no:
- *                 type: Number
+ *                 type: integer
  *               fecha_captura:
- *                 type: Date
+ *                 type: string
+ *                 format: date
  *               nombre:
  *                 type: string
  *               apellido_paterno:
@@ -36,30 +37,52 @@ const router = Router();
  *               curp: 
  *                 type: string
  *               direccion:
- *                 type: string
- *               colonia:
- *                 type: string
- *               cp:
- *                 type: string
+ *                 type: object
+ *                 properties:
+ *                   calle:
+ *                     type: string
+ *                   colonia:
+ *                     type: string
+ *                   ciudad:
+ *                     type: string
+ *                   estado:
+ *                     type: string
+ *                   municipio:
+ *                     type: string
+ *                   no_exterior:
+ *                     type: string
+ *                   no_interior:
+ *                     type: string
+ *                   cp:
+ *                     type: string
  *               telefono:
- *                 type: string
+ *                 type: array
+ *                 items:
+ *                   type: string
  *               apoyo_solicitado:
  *                 type: string
  *               observaciones:
  *                 type: string
  *             example:
  *               no: 1
- *               fecha_captura: 2024-03-17
- *               nombre: John
- *               apellido_paterno: Doe
- *               apellido_materno: Doe
- *               curp: GOMC960630MOCRRS07
- *               direccion: Avenida Xalapa
- *               colonia: Empleados Municipales
- *               cp: 91020
- *               telefono: 9848073000
- *               apoyo_solicitado: Laminas
- *               observaciones: Es muy pobre
+ *               fecha_captura: "2024-03-17"
+ *               nombre: "John"
+ *               apellido_paterno: "Doe"
+ *               apellido_materno: "Doe"
+ *               curp: "GOMC960630MOCRRS07"
+ *               direccion:
+ *                 calle: "Avenida Xalapa"
+ *                 colonia: "Empleados Municipales"
+ *                 ciudad: "Xalapa"
+ *                 estado: "Veracruz"
+ *                 municipio: "Xalapa"
+ *                 no_exterior: "17a"
+ *                 no_interior: "4"
+ *                 cp: "91020"
+ *               telefono:
+ *                 - "9848073000"
+ *               apoyo_solicitado: "Laminas"
+ *               observaciones: "Es muy pobre"
  *     responses:
  *       201:
  *         description: Solicitud creada exitosamente
@@ -69,12 +92,12 @@ const router = Router();
  *               type: object
  *               properties:
  *                 code:
- *                   type: Number
+ *                   type: integer
  *                 msg:
  *                   type: string
  *             example:
  *               code: 201
- *               nombre: Solicitud creada con éxito :)
+ *               msg: "Solicitud creada con éxito :)"
  *       400:
  *         description: Datos faltantes o incorrectos enviados
  *         content:
@@ -83,12 +106,12 @@ const router = Router();
  *               type: object
  *               properties:
  *                 code:
- *                   type: Number
+ *                   type: integer
  *                 msg:
  *                   type: string
  *             example:
  *               code: 400
- *               nombre: Información incompleta o erronea, por favor verifiquela
+ *               msg: "Información incompleta o erronea, por favor verifiquela"
  *       500:
  *         description: Error del servidor
  *         content:
@@ -97,13 +120,14 @@ const router = Router();
  *               type: object
  *               properties:
  *                 code:
- *                   type: Number
+ *                   type: integer
  *                 msg:
  *                   type: string
  *             example:
  *               code: 500
- *               nombre: Solicitud no creada :)
+ *               msg: "Solicitud no creada :)"
  */
+
 router.post("/registrarSolicitud", registrarSolicitud)
 
 module.exports = router;
