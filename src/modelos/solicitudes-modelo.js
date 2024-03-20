@@ -35,10 +35,6 @@ const SolicitudesSchema = new mongoose.Schema(
                 type: String,
                 required: true
             },
-            ciudad:{
-                type: String,
-                required: true
-            },
             estado:{
                 type: String,
                 required: true

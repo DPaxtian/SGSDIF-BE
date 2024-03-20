@@ -27,9 +27,6 @@ function validarSolicitudNoVacia(datosSolicitud) {
     if (datosSolicitud.direccion.colonia === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.direccion.ciudad === undefined)
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
     if (datosSolicitud.direccion.estado === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
@@ -96,9 +93,6 @@ function validarDatosSolicitud(datosSolicitud) {
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (typeof datosSolicitud.direccion.colonia !== "string")
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
-    if (typeof datosSolicitud.direccion.ciudad !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (typeof datosSolicitud.direccion.estado !== "string")
