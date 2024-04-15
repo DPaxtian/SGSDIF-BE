@@ -10,7 +10,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/v1/solicitudes/registrarSolicitud:
+ * /api/v1/solicitudes/registrar_solicitud:
  *   post:
  *     summary: Registrar una nueva solicitud
  *     description: Registra una nueva solicitud con los datos proporcionados
@@ -43,8 +43,6 @@ const router = Router();
  *                     type: string
  *                   colonia:
  *                     type: string
- *                   ciudad:
- *                     type: string
  *                   estado:
  *                     type: string
  *                   municipio:
@@ -55,7 +53,7 @@ const router = Router();
  *                     type: string
  *                   cp:
  *                     type: string
- *               telefono:
+ *               telefonos:
  *                 type: array
  *                 items:
  *                   type: string
@@ -73,7 +71,6 @@ const router = Router();
  *               direccion:
  *                 calle: "Avenida Xalapa"
  *                 colonia: "Empleados Municipales"
- *                 ciudad: "Xalapa"
  *                 estado: "Veracruz"
  *                 municipio: "Xalapa"
  *                 no_exterior: "17a"
@@ -127,7 +124,6 @@ const router = Router();
  *               code: 500
  *               msg: "Solicitud no creada :)"
  */
-
-router.post("/registrarSolicitud", registrarSolicitud)
+router.post("/registrar_solicitud", registrarSolicitud)
 
 module.exports = router;

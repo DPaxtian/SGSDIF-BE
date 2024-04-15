@@ -21,6 +21,7 @@ class Server {
 
     routes() {
         this.app.use('/api/v1/solicitudes', require('../rutas/solicitudes-rutas'));
+        this.app.use('/api/v1/catalogo_apoyos', require('../rutas/catalogo-apoyos-rutas'));
     }
 
     
