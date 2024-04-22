@@ -2,15 +2,18 @@ const mongoose = require('mongoose')
 
 const ColoniasMarginalesSchema = mongoose.Schema(
     {
-        nombreColonia: {
+        nombre_colonia: {
             type: String,
             require: true
         },
-        nivelMarginacion:{
-            type: Number,
+        nivel_marginacion:{
+            type: String,
+        },
+        codigo_postal:{
+            type: String,
             require: true
         }
     }
 )
 
-module.exports =  mongoose.model("colonias_marginales", ColoniasMarginalesSchema)
+module.exports =  mongoose.model("colonias", ColoniasMarginalesSchema)
