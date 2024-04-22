@@ -10,7 +10,7 @@ const opciones = {
       description: 'API para el sistema SGSDIF',
     },
   },
-  apis: ['src/rutas/solicitudes-rutas.js', 'src/rutas/catalogo-apoyos-rutas.js']
+  apis: ['src/rutas/solicitudes-rutas.js', 'src/rutas/catalogo-apoyos-rutas.js', 'src/rutas/colonias-rutas.js']
 };
 
 const especificaciones = swaggerJsdoc(opciones);
