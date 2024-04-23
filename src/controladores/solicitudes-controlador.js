@@ -37,6 +37,34 @@ const registrarSolicitud = async (req, res) => {
 }
 
 
-module.exports = {
-    registrarSolicitud
+async function obtenerSolicitudes(req, res) {
+    let codigoResultado = CodigosEstado.INTERNAL_SERVER_ERROR
+    let mensajeRespuesta = "Ha ocurrido un error :("
+    let datosRespuesta = []
+
+    try {
+        datosRespuesta = await solicitudesServicio.obtenerSolicitudes()
+
+        if (datosRespuesta.length === 0) {
+            codigoResultado = CodigosEstado.NOT_FOUND
+            mensajeRespuesta = "No se han encontrado solicitudes"
+        } else {
+            codigoResultado = CodigosEstado.OK
+            mensajeRespuesta = "Solicitudes encontradas correctamente"
+        }
+    } catch (error) {
+        Logger.error(`Ha ocurrido un error en obtenerSolicitudescontrolador: ${error}`)
+    }
+
+    return res.status(codigoResultado).json({
+        code: codigoResultado,
+        msg: mensajeRespuesta,
+        data: datosRespuesta
+    })
 }
+
+
+module.exports = {
+        registrarSolicitud,
+        obtenerSolicitudes
+    }

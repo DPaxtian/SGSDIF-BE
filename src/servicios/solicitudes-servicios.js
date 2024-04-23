@@ -18,7 +18,21 @@ async function nuevaSolicitud(solicitud) {
 }
 
 
+async function obtenerSolicitudes() {
+    return new Promise((resolve, reject) =>{
+        let solicitudesResultado = Solicitud.find({})
+        .then((solicitudesResultado) => {
+            resolve(solicitudesResultado)
+        })
+        .catch((error) => {
+            Logger.error(`Ha ocurrido un error: ${error}`)
+            reject(CodigosEstado.INTERNAL_SERVER_ERROR)
+        })
+    })
+}
+
 
 module.exports = {
     nuevaSolicitud,
+    obtenerSolicitudes
 }
