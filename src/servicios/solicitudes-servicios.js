@@ -6,9 +6,9 @@ async function nuevaSolicitud(solicitud) {
     return new Promise((resolve, reject) => {
         let datosSolicitud = new Solicitud(solicitud);
 
-        datosSolicitud.save()
-        .then((resultado) => {
-            resolve(CodigosEstado.CREATED);
+        let id_solicitud = datosSolicitud.save()
+        .then((id_solicitud) => {
+            resolve(id_solicitud);
         })
         .catch((error) => {
             reject(CodigosEstado.INTERNAL_SERVER_ERROR);
@@ -32,7 +32,23 @@ async function obtenerSolicitudes() {
 }
 
 
+async function actualizarSolicitud(id_solicitud, solicitud) {
+    return new Promise((resolve, reject) => {
+
+        Solicitud.updateOne({_id: id_solicitud}, solicitud)
+        .then(() => {
+            resolve(CodigosEstado.OK);
+        })
+        .catch((error) => {
+            reject(CodigosEstado.INTERNAL_SERVER_ERROR);
+            Logger.error(`Error creando la solicitud: ${error}`)
+        })
+    })
+}
+
+
 module.exports = {
     nuevaSolicitud,
-    obtenerSolicitudes
+    obtenerSolicitudes,
+    actualizarSolicitud
 }
