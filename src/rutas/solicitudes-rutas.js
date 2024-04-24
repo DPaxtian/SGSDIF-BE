@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { registrarSolicitud } = require("../controladores/solicitudes-controlador")
+const { registrarSolicitud, obtenerSolicitudes } = require("../controladores/solicitudes-controlador")
 const router = Router();
 
 /**
@@ -125,5 +125,89 @@ const router = Router();
  *               msg: "Solicitud no creada :)"
  */
 router.post("/registrar_solicitud", registrarSolicitud)
+/**
+ * @swagger
+ * /api/v1/solicitudes/obtener_solicitudes:
+ *   get:
+ *     summary: Obtiene las solicitudes registradas
+ *     description: Obtiene todas las solicitudes registradas en la base de datos
+ *     tags:
+ *      - Solicitudes
+ *     responses:
+ *       201:
+ *         description: Solicitudes obtenidas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *             example:
+ *               code: 201
+ *               msg: "Solicitudes obtenidas con éxito :)"
+ *               data: [     
+ *                          {
+                            "direccion": {
+                                "calle": "Valentin Gomez Farias",
+                                "colonia": "Empleados municipales",
+                                "ciudad": "Xalapa",
+                                "estado": "Veracruz",
+                                "municipio": "Xalapa",
+                                "no_casa": "17a",
+                                "cp": "91020"
+                            },
+                            "_id": "65fa28d3075b23c34b602e81",
+                            "no": 1,
+                            "fecha_captura": "2024-03-17T00:00:00.000Z",
+                            "nombre": "Daniel Eduardo",
+                            "apellido_paterno": "Anota",
+                            "apellido_materno": "Paxtian",
+                            "curp": "AOPD980906HVZNXN05",
+                            "telefonos": [
+                                "8948073097",
+                                "9848073099"
+                            ],
+                            "apoyo_solicitado": "Laminas",
+                            "observaciones": "Es muy pobre"
+                            }
+ *                     ]
+ *       404:
+ *         description: Datos faltantes o incorrectos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *             example:
+ *               code: 404
+ *               msg: "Información incompleta o erronea, por favor verifiquela"
+ *               data: []
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *             example:
+ *               code: 500
+ *               msg: "Solicitud no creada :)"
+ */
+router.get("/obtener_solicitudes", obtenerSolicitudes)
 
 module.exports = router;
