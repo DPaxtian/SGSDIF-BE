@@ -6,9 +6,6 @@ function validarSolicitudNoVacia(datosSolicitud) {
     if (datosSolicitud.no === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.fecha_captura === undefined)
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
     if (datosSolicitud.nombre === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
@@ -33,7 +30,6 @@ function validarSolicitudNoVacia(datosSolicitud) {
     if (datosSolicitud.direccion.municipio === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-
     if (datosSolicitud.direccion.cp === undefined)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
@@ -52,11 +48,6 @@ function validarSolicitudNoVacia(datosSolicitud) {
     if (datosSolicitud.telefonos.length === 0)
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (datosSolicitud.apoyo_solicitado === undefined)
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
-    if (datosSolicitud.observaciones === undefined)
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     return resultadoValidacion;
 }
@@ -68,16 +59,10 @@ function validarDatosSolicitud(datosSolicitud) {
     if (!Number.isInteger(datosSolicitud.no))
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
-    if (typeof datosSolicitud.fecha_captura !== "string")
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
     if (typeof datosSolicitud.nombre !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (typeof datosSolicitud.apellido_paterno !== "string")
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
-    if (typeof datosSolicitud.apellido_materno !== "string")
         resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     if (!validarCURP(datosSolicitud.curp))
@@ -115,12 +100,6 @@ function validarDatosSolicitud(datosSolicitud) {
             resultadoValidacion = CodigosEstado.BAD_REQUEST;
         }
     });
-
-    if (typeof datosSolicitud.apoyo_solicitado !== "string")
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
-
-    if (typeof datosSolicitud.observaciones !== "string")
-        resultadoValidacion = CodigosEstado.BAD_REQUEST;
 
     return resultadoValidacion;
 }

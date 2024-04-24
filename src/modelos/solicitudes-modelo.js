@@ -9,7 +9,7 @@ const SolicitudesSchema = new mongoose.Schema(
         },
         fecha_captura: {
             type: Date,
-            required: true
+            default: ""
         },
         nombre: {
             type: String,
@@ -61,13 +61,16 @@ const SolicitudesSchema = new mongoose.Schema(
         ],
         apoyo_solicitado: {
             type: String,
-            required: true
+            default: ""
         },
         observaciones: {
             type: String,
-            required: true
+            default: ""
+        },
+        archivos: {
+            type: Array,
+            default: []
         }
-        
     },
     { versionKey: false }
 );
