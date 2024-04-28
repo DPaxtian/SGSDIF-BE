@@ -56,9 +56,11 @@ const SolicitudesSchema = new mongoose.Schema(
                 required: true
             }
         },
-        telefonos: [
-
-        ],
+        telefonos: {
+            type: Array,
+            default: [],
+            required: true
+        },
         apoyo_solicitado: {
             type: String,
             default: ""

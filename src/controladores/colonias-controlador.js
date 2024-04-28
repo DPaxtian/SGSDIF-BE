@@ -1,7 +1,7 @@
 const ColoniasServicio = require('../servicios/colonias_servicios')
-const ColoniaValidacion = require('../utileria/colonia-validacion')
 const Logger = require('../configuracion/logger')
 const CodigosEstado = require('../utileria/codigos-estado')
+const Validaciones = require('../utileria/validaciones-joi')
 
 
 async function crearColonia(req, res) {
@@ -11,7 +11,9 @@ async function crearColonia(req, res) {
     try{
         let datosColonia = req.body
 
-        if(ColoniaValidacion.validarDatosColonia(datosColonia) === CodigosEstado.BAD_REQUEST){
+        const { error } = Validaciones.coloniasValidacion.validate(datosColonia)
+
+        if(error){
             codigoResultado = CodigosEstado.BAD_REQUEST
             mensajeRespuesta = 'Información incompleta o erronea, por favor verifiquela';
             throw new Error('Información incompleta o erronea, por favor verifiquela');

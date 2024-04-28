@@ -1,7 +1,7 @@
 const solicitudesServicio = require("../servicios/solicitudes-servicios")
 const Logger = require('../configuracion/logger')
 const CodigosEstado = require('../utileria/codigos-estado')
-const solicitudValidacion = require('../utileria/solicitud-validacion')
+const Validaciones = require('../utileria/validaciones-joi')
 
 
 
@@ -13,10 +13,9 @@ const registrarSolicitud = async (req, res) => {
     try {
         let nuevaSolicitud = req.body;
 
-        let resultadoDatosVacios = solicitudValidacion.validarSolicitudNoVacia(nuevaSolicitud);
-        let resultadoValidacion = solicitudValidacion.validarDatosSolicitud(nuevaSolicitud);
+        const { error } = Validaciones.solicitudValidacion.validate(nuevaSolicitud)
 
-        if (resultadoValidacion === CodigosEstado.BAD_REQUEST || resultadoDatosVacios === CodigosEstado.BAD_REQUEST) {
+        if (error) {
             codigoResultado = CodigosEstado.BAD_REQUEST;
             mensajeRespuesta = 'Información incompleta o erronea, por favor verifiquela';
             throw new Error('Información incompleta o erronea, por favor verifiquela');
@@ -35,7 +34,7 @@ const registrarSolicitud = async (req, res) => {
     return res.status(codigoResultado).json({
         code: codigoResultado,
         msg: mensajeRespuesta,
-        data: id_solicitud_creada._id
+        data: id_solicitud_creada
     });
 }
 
@@ -75,10 +74,9 @@ async function actualizarSolicitud(req, res) {
         let idSolicitud = req.params.id_solicitud;
         let solicitudActualizada = req.body;
 
-        let resultadoDatosVacios = solicitudValidacion.validarSolicitudNoVacia(solicitudActualizada);
-        let resultadoValidacion = solicitudValidacion.validarDatosSolicitud(solicitudActualizada);
+        const { error } = Validaciones.solicitudValidacion.validate(nuevaSolicitud)
 
-        if (resultadoValidacion === CodigosEstado.BAD_REQUEST || resultadoDatosVacios === CodigosEstado.BAD_REQUEST) {
+        if (error) {
             codigoResultado = CodigosEstado.BAD_REQUEST;
             mensajeRespuesta = 'Información incompleta o erronea, por favor verifiquela';
             throw new Error('Información incompleta o erronea, por favor verifiquela');
