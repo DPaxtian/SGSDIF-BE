@@ -6,9 +6,9 @@ async function nuevaSolicitud(solicitud) {
     return new Promise((resolve, reject) => {
         let datosSolicitud = new Solicitud(solicitud);
 
-        let id_solicitud = datosSolicitud.save()
-        .then((id_solicitud) => {
-            resolve(id_solicitud);
+        let info_solicitud = datosSolicitud.save()
+        .then((info_solicitud) => {
+            resolve(info_solicitud._id);
         })
         .catch((error) => {
             reject(CodigosEstado.INTERNAL_SERVER_ERROR);

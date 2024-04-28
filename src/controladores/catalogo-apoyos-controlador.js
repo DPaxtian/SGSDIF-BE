@@ -1,7 +1,7 @@
 const CatalogoApoyosServicio = require("../servicios/catalogo-apoyos-servicios")
 const Logger = require("../configuracion/logger")
 const CodigosEstado = require("../utileria/codigos-estado")
-const ApoyoValidacon = require("../utileria/catalogo-apoyo-validacion")
+const Validaciones = require('../utileria/validaciones-joi')
 
 
 async function crearApoyo(req, res) {
@@ -11,7 +11,9 @@ async function crearApoyo(req, res) {
     try {
         let datosApoyo = req.body;
 
-        if(ApoyoValidacon.validarDatosApoyo(datosApoyo) === CodigosEstado.BAD_REQUEST){
+        const { error } = Validaciones.catalogosValidacion.validate(datosApoyo)
+
+        if(error){
             codigoResultado = CodigosEstado.BAD_REQUEST
             mensajeRespuesta = 'Información incompleta o erronea, por favor verifiquela';
             throw new Error('Información incompleta o erronea, por favor verifiquela');
