@@ -32,8 +32,20 @@ const catalogosValidacion = Joi.object({
 })
 
 
+const usuarioValidacion = Joi.object({
+    nombre: Joi.string().required(),
+    apellido_paterno: Joi.string().required(),
+    apellido_materno: Joi.string(),
+    correo_electronico: Joi.string().required().email(),
+    rol: Joi.string().valid("Administrador").required(),
+    nombre_usuario: Joi.string().required(),
+    contrasena: Joi.string().required().regex(/^(?=.*[A-Z])(?=.*\d).{8,}$/)
+})
+
+
 module.exports = {
     solicitudValidacion,
     coloniasValidacion,
-    catalogosValidacion
+    catalogosValidacion,
+    usuarioValidacion
 }

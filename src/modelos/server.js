@@ -23,6 +23,7 @@ class Server {
         this.app.use('/api/v1/solicitudes', require('../rutas/solicitudes-rutas'));
         this.app.use('/api/v1/catalogo_apoyos', require('../rutas/catalogo-apoyos-rutas'));
         this.app.use('/api/v1/colonias', require('../rutas/colonias-rutas'));
+        this.app.use('/api/v1/usuarios', require('../rutas/usuarios-rutas'))
     }
 
     
