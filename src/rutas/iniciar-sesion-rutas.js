@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { registrarUsuario, iniciarSesion } = require('../controladores/usuarios-controlador')
+const { iniciarSesion } = require('../controladores/usuarios-controlador')
 const router = Router();
 
 /**
@@ -10,10 +10,10 @@ const router = Router();
 
 /**
  * @swagger
- * /api/v1/usuarios/registrar_usuario:
+ * /api/v1/login/iniciar_sesion:
  *   post:
- *     summary: Registrar un nuevo usuario
- *     description: Registra un nuevo usuario con los datos proporcionados
+ *     summary: Inicio de sesion
+ *     description: Inicio de sesion proporcionando el nombre de usuario y la contraseña
  *     tags:
  *      - Usuarios
  *     requestBody:
@@ -23,31 +23,16 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
- *                 type: string
- *               apellido_paterno:
- *                 type: string
- *               apellido_materno:
- *                 type: string
- *               correo_electronico: 
- *                 type: string
- *               rol:
- *                 type: string
  *               nombre_usuario:
  *                 type: string
- *               contrasena: 
+ *               contrasena:
  *                 type: string
  *             example:
- *               nombre: "John"
- *               apellido_paterno: "Doe"
- *               apellido_materno: "Doe"
- *               correo_electronico: "john_doe@email.com"
- *               rol: "Administrador"
- *               nombre_usuario: "admin"
- *               contrasena: "Administrador1"
+ *               nombre_usuario: "dpaxtian"
+ *               contrasena: "Daniel98"
  *     responses:
  *       201:
- *         description: Usuario registrado exitosamente
+ *         description: Inicio de sesion exitoso
  *         content:
  *           application/json:
  *             schema:
@@ -61,8 +46,8 @@ const router = Router();
  *                   type: string
  *             example:
  *               code: 201
- *               msg: "Usuario registrado con éxito :)"
- *               data: "id_usuario"
+ *               msg: "Inicio de sesion exitoso :)"
+ *               data: "token_acceso"
  *       400:
  *         description: Datos faltantes o incorrectos enviados
  *         content:
@@ -98,6 +83,6 @@ const router = Router();
  *               msg: "Solicitud no creada :)"
  *               data: null
  */
-router.post('/registrar_usuario', registrarUsuario)
+router.post('/iniciar_sesion', iniciarSesion)
 
 module.exports = router

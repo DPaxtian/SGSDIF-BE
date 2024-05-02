@@ -18,8 +18,11 @@ const solicitudValidacion = Joi.object({
 
 const coloniasValidacion = Joi.object({
     nombre_colonia: Joi.string().required(),
+    categoria: Joi.string().required(),
     nivel_marginacion: Joi.string().required(),
-    codigo_postal: Joi.string().required()
+    poblacion: Joi.number().required(),
+    codigo_postal: Joi.string().required(),
+    clave_ageb: Joi.string().required()
 })
 
 
@@ -43,9 +46,16 @@ const usuarioValidacion = Joi.object({
 })
 
 
+const inicioSesionValidacion = Joi.object({
+    nombre_usuario: Joi.string().required(),
+    contrasena: Joi.string().required()
+})
+
+
 module.exports = {
     solicitudValidacion,
     coloniasValidacion,
     catalogosValidacion,
-    usuarioValidacion
+    usuarioValidacion,
+    inicioSesionValidacion
 }
