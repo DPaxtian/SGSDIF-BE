@@ -1,6 +1,7 @@
 const Solicitud = require("../modelos/solicitudes-modelo");
 const Logger = require('../configuracion/logger');
-const CodigosEstado = require('../utileria/codigos-estado')
+const CodigosEstado = require('../utileria/codigos-estado');
+const { InternalServerError } = require("../utileria/excepciones");
 
 async function nuevaSolicitud(solicitud) {
     return new Promise((resolve, reject) => {
@@ -32,6 +33,20 @@ async function obtenerSolicitudes() {
 }
 
 
+async function obtenerSolicitudesPorCurp(curp) {
+    try{
+        const solicitudes_resultado = Solicitud.find({"curp": curp})
+
+        return solicitudes_resultado
+    } catch (error) {
+        Logger.error(`Ha ocurrido un error buscando las solicitudes: ${error}`)
+        throw new InternalServerError("Ha ocurrido un error buscando las solicitudes")
+    }
+}
+
+
+
+
 async function actualizarSolicitud(id_solicitud, solicitud) {
     return new Promise((resolve, reject) => {
 
@@ -50,5 +65,6 @@ async function actualizarSolicitud(id_solicitud, solicitud) {
 module.exports = {
     nuevaSolicitud,
     obtenerSolicitudes,
-    actualizarSolicitud
+    actualizarSolicitud, 
+    obtenerSolicitudesPorCurp
 }

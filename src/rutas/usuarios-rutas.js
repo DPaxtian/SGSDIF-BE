@@ -44,7 +44,7 @@ const router = Router();
  *               correo_electronico: "john_doe@email.com"
  *               rol: "Administrador"
  *               nombre_usuario: "admin"
- *               contrasena: "Administrador1"
+ *               contrasena: "Administrador"
  *     responses:
  *       201:
  *         description: Usuario registrado exitosamente

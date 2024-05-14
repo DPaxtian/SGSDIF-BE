@@ -1,6 +1,7 @@
 const CatalogoApoyos = require("../modelos/catalogo-apoyos")
 const Logger = require("../configuracion/logger")
 const CodigosEstado = require("../utileria/codigos-estado")
+const { HttpError, BadRequestError, InternalServerError } = require('../utileria/excepciones')
 
 
 async function nuevoApoyo(infoApoyo) {

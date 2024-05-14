@@ -2,6 +2,8 @@ const solicitudesServicio = require("../servicios/solicitudes-servicios")
 const Logger = require('../configuracion/logger')
 const CodigosEstado = require('../utileria/codigos-estado')
 const Validaciones = require('../utileria/validaciones-joi')
+const DriveServicio = require('../servicios/google-drive-servicios')
+const { HttpError, BadRequestError, NotFoundError } = require("../utileria/excepciones")
 
 
 
@@ -66,6 +68,54 @@ async function obtenerSolicitudes(req, res) {
 }
 
 
+async function obtenerSolicitudesPorCurp(req, res) {
+    let codigoResultado = CodigosEstado.INTERNAL_SERVER_ERROR
+    let mensajeRespuesta = "Ha ocurrido un error :("
+    let datosRespuesta = []
+
+    try {
+        const curp = req.params.curp
+
+        const { error } = Validaciones.curpValidacion.validate(curp)
+
+        if (error) {
+            throw new BadRequestError("Información incompleta o errónea, por favor verifíquela")
+        }
+
+        datosRespuesta = await solicitudesServicio.obtenerSolicitudesPorCurp(curp)
+
+        if (datosRespuesta.length === 0) {
+            throw new NotFoundError("No se han encontrado solicitudes con este curp")
+        } else {
+            codigoResultado = CodigosEstado.OK
+            mensajeRespuesta = "Solicitudes encontradas correctamente"
+        }
+    } catch (error) {
+        exceptionMessage = ""
+        exceptionCode = ""
+
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en buscarSolicitudesPorCurp controlador"
+        }
+
+        Logger.error(`Error en obtener solicitudes por curp: ${error}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
+    }
+
+    return res.status(codigoResultado).json({
+        code: codigoResultado,
+        msg: mensajeRespuesta,
+        data: datosRespuesta
+    })
+}
+
 async function actualizarSolicitud(req, res) {
     let codigoResultado = CodigosEstado.INTERNAL_SERVER_ERROR;
     let mensajeRespuesta = "Solicitud no actualizada :(";
@@ -98,8 +148,19 @@ async function actualizarSolicitud(req, res) {
 }
 
 
-module.exports = {
-        registrarSolicitud,
-        obtenerSolicitudes,
-        actualizarSolicitud
+async function subirArchivo(req, res) {
+    try {
+        await DriveServicio.crearCarpeta("carpeta_prueba")
+    } catch (error) {
+
     }
+}
+
+
+module.exports = {
+    registrarSolicitud,
+    obtenerSolicitudes,
+    actualizarSolicitud,
+    subirArchivo,
+    obtenerSolicitudesPorCurp
+}

@@ -32,7 +32,7 @@ const SolicitudesSchema = new mongoose.Schema(
                 required: true
             },
             colonia: {
-                type: String,
+                type: mongoose.Schema.Types.ObjectId,
                 required: true
             },
             estado:{
@@ -50,10 +50,6 @@ const SolicitudesSchema = new mongoose.Schema(
             no_interior:{
                 type: String,
                 required: true
-            },
-            cp: {
-                type: String,
-                required: true
             }
         },
         telefonos: {
@@ -62,7 +58,7 @@ const SolicitudesSchema = new mongoose.Schema(
             required: true
         },
         apoyo_solicitado: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             default: ""
         },
         observaciones: {

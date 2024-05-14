@@ -2,27 +2,39 @@ const mongoose = require('mongoose')
 
 const ColoniasMarginalesSchema = mongoose.Schema(
     {
+        clave: {
+            type: String,
+            require: true
+        },
         nombre_colonia: {
             type: String,
             require: true
         },
-        categoria: {
+        cp:{
             type: String,
             require: true
         },
-        nivel_marginacion:{
+        grado_marginacion:{
             type: String,
             require: true
         },
-        poblacion: {
+        clasificacion: {
+            type: String,
+            require: true
+        },
+        habitantes: {
             type: Number,
             required: true
         },
-        codigo_postal:{
-            type: String,
+        viviendas_habitadas: {
+            type: Number,
+            required: true
+        },
+        familias: {
+            type: Number,
             require: true
         },
-        clave_ageb: {
+        tipo: {
             type: String,
             require: true
         }

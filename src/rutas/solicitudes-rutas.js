@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { registrarSolicitud, obtenerSolicitudes, actualizarSolicitud } = require("../controladores/solicitudes-controlador")
+const { registrarSolicitud, obtenerSolicitudes, actualizarSolicitud, subirArchivo, obtenerSolicitudesPorCurp } = require("../controladores/solicitudes-controlador")
 const router = Router();
 
 /**
@@ -42,7 +42,7 @@ const router = Router();
  *                   calle:
  *                     type: string
  *                   colonia:
- *                     type: string
+ *                     type: ObjectId
  *                   estado:
  *                     type: string
  *                   municipio:
@@ -51,14 +51,12 @@ const router = Router();
  *                     type: string
  *                   no_interior:
  *                     type: string
- *                   cp:
- *                     type: string
  *               telefonos:
  *                 type: array
  *                 items:
  *                   type: string
  *               apoyo_solicitado:
- *                 type: string
+ *                 type: ObjectId
  *               observaciones:
  *                 type: string
  *             example:
@@ -70,15 +68,14 @@ const router = Router();
  *               curp: "GOMC960630MOCRRS07"
  *               direccion:
  *                 calle: "Avenida Xalapa"
- *                 colonia: "Empleados Municipales"
+ *                 colonia: "65fa28d3075b23c34b602e81"
  *                 estado: "Veracruz"
  *                 municipio: "Xalapa"
  *                 no_exterior: "17a"
  *                 no_interior: "4"
- *                 cp: "91020"
  *               telefonos:
  *                 - "9848073000"
- *               apoyo_solicitado: "Laminas"
+ *               apoyo_solicitado: "65fa28d3075b23c34b602e81"
  *               observaciones: "Es muy pobre"
  *     responses:
  *       201:
@@ -157,12 +154,11 @@ router.post("/registrar_solicitud", registrarSolicitud)
  *                          {
                             "direccion": {
                                 "calle": "Valentin Gomez Farias",
-                                "colonia": "Empleados municipales",
+                                "colonia": "65fa28d3075b23c34b602e81",
                                 "ciudad": "Xalapa",
                                 "estado": "Veracruz",
                                 "municipio": "Xalapa",
                                 "no_casa": "17a",
-                                "cp": "91020"
                             },
                             "_id": "65fa28d3075b23c34b602e81",
                             "no": 1,
@@ -175,7 +171,7 @@ router.post("/registrar_solicitud", registrarSolicitud)
                                 "8948073097",
                                 "9848073099"
                             ],
-                            "apoyo_solicitado": "Laminas",
+                            "apoyo_solicitado": "65fa28d3075b23c34b602e81",
                             "observaciones": "Es muy pobre"
                             }
  *                     ]
@@ -253,7 +249,7 @@ router.get("/obtener_solicitudes", obtenerSolicitudes)
  *                   calle:
  *                     type: string
  *                   colonia:
- *                     type: string
+ *                     type: ObjectId
  *                   estado:
  *                     type: string
  *                   municipio:
@@ -262,14 +258,12 @@ router.get("/obtener_solicitudes", obtenerSolicitudes)
  *                     type: string
  *                   no_interior:
  *                     type: string
- *                   cp:
- *                     type: string
  *               telefonos:
  *                 type: array
  *                 items:
  *                   type: string
  *               apoyo_solicitado:
- *                 type: string
+ *                 type: ObjectId
  *               observaciones:
  *                 type: string
  *               archivos:
@@ -285,15 +279,14 @@ router.get("/obtener_solicitudes", obtenerSolicitudes)
  *               curp: "GOMC960630MOCRRS07"
  *               direccion:
  *                 calle: "Avenida Xalapa"
- *                 colonia: "Empleados Municipales"
+ *                 colonia: "65fa28d3075b23c34b602e81"
  *                 estado: "Veracruz"
  *                 municipio: "Xalapa"
  *                 no_exterior: "17a"
  *                 no_interior: "4"
- *                 cp: "91020"
  *               telefonos:
  *                 - "9848073000"
- *               apoyo_solicitado: "Laminas"
+ *               apoyo_solicitado: "65fa28d3075b23c34b602e81"
  *               observaciones: "Es muy pobre"
  *               archivos:
  *                 - "adfasf3232ksadfa"
@@ -344,5 +337,114 @@ router.get("/obtener_solicitudes", obtenerSolicitudes)
  *               msg: "Solicitud no creada :)"
  */
 router.put("/actualizar_solicitud/:id_solicitud", actualizarSolicitud)
+/**
+ * @swagger
+ * /api/v1/solicitudes/obtener_solicitudes_curp/{curp}:
+ *   get:
+ *     summary: Obtiene las solicitudes registradas con el curp proporcionado
+ *     description: Obtiene todas las solicitudes registradas con el curp proporcionado
+ *     tags:
+ *      - Solicitudes
+ *     parameters:
+ *      - in: path
+ *        name: curp
+ *        description: curp del solicitante
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       201:
+ *         description: Solicitudes obtenidas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *             example:
+ *               code: 201
+ *               msg: "Solicitudes obtenidas con éxito :)"
+ *               data: [     
+ *                          {
+                            "direccion": {
+                                "calle": "Valentin Gomez Farias",
+                                "colonia": "65fa28d3075b23c34b602e81",
+                                "ciudad": "Xalapa",
+                                "estado": "Veracruz",
+                                "municipio": "Xalapa",
+                                "no_casa": "17a",
+                            },
+                            "_id": "65fa28d3075b23c34b602e81",
+                            "no": 1,
+                            "fecha_captura": "2024-03-17T00:00:00.000Z",
+                            "nombre": "Daniel Eduardo",
+                            "apellido_paterno": "Anota",
+                            "apellido_materno": "Paxtian",
+                            "curp": "AOPD980906HVZNXN05",
+                            "telefonos": [
+                                "8948073097",
+                                "9848073099"
+                            ],
+                            "apoyo_solicitado": "65fa28d3075b23c34b602e81",
+                            "observaciones": "Es muy pobre"
+                            }
+ *                     ]
+ *       400:
+ *         description: Datos faltantes o incorrectos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *             example:
+ *               code: 400
+ *               msg: "Información incompleta o erronea, por favor verifiquela"
+ *               data: []
+ *       404:
+ *          descripction: Solicitudes no encontradas
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          code:
+ *                             type: integer
+ *                          msg:
+ *                             type: string
+ *                          data:
+ *                              type: array
+ *                  example:
+ *                      code: 404
+ *                      msg: "No se han encontrado solicitudes con este curp"
+ *                      data: []
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *             example:
+ *               code: 500
+ *               msg: "Solicitud no creada :)"
+ */
+router.get("/obtener_solicitudes_curp/:curp", obtenerSolicitudesPorCurp)
+router.post("/subir_archivo", subirArchivo)
+
 
 module.exports = router;

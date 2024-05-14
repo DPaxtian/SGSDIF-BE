@@ -23,16 +23,34 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
+ *               clave:
+ *                 type: string
  *               nombre_colonia:
  *                 type: string
- *               nivel_marginacion:
+ *               cp:
  *                 type: string
- *               codigo_postal:
+ *               grado_marginacion:
+ *                 type: string
+ *               clasificacion:
+ *                 type: string
+ *               habitantes:
+ *                 type: number
+ *               viviendas_habitadas:
+ *                 type: number
+ *               familias:
+ *                 type: number
+ *               tipo:
  *                 type: string
  *             example:
+ *               clave: 029A
  *               nombre_colonia: Revolucion
- *               nivel_marginacion: Muy alto
- *               codigo_postal: XXXXX
+ *               cp: XXXXX
+ *               grado_marginacion: Muy alto
+ *               clasificacion: COLONIA
+ *               habitantes: 34098
+ *               viviendas_habitadas: 1
+ *               familias: 1
+ *               tipo: AGEB URBANA
  *     responses:
  *       201:
  *         description: Colonia creada exitosamente
@@ -94,10 +112,24 @@ router.post("/registrar_colonia", crearColonia)
  *             schema:
  *               type: object
  *               properties:
- *                 code:
- *                   type: integer
- *                 msg:
- *                   type: string
+ *               clave:
+ *                 type: string
+ *               nombre_colonia:
+ *                 type: string
+ *               cp:
+ *                 type: string
+ *               grado_marginacion:
+ *                 type: string
+ *               clasificacion:
+ *                 type: string
+ *               habitantes:
+ *                 type: number
+ *               viviendas_habitadas:
+ *                 type: number
+ *               familias:
+ *                 type: number
+ *               tipo:
+ *                 type: string
  *             example:
  *               code: 201
  *               msg: "Colonias encontradas correctamente"
