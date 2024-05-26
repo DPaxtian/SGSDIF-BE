@@ -35,17 +35,140 @@ async function registrarUsuario(req, res) {
             mensajeRespuesta = "Usuario registrado con exito :)"
         }
 
+        return res.status(codigoResultado).json({
+            code: codigoResultado,
+            msg: mensajeRespuesta,
+            data: id_registro._id
+        })
+
 
     } catch (error) {
         Logger.error(`Ocurrio un error en el controlador crearSolicitud: ${error}`)
-    }
+        exceptionMessage = ""
+        exceptionCode = ""
 
-    return res.status(codigoResultado).json({
-        code: codigoResultado,
-        msg: mensajeRespuesta,
-        data: id_registro
-    })
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en iniciarSesion controlador"
+        }
+
+        Logger.error(`Error al actualizar el usuario: ${error}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
+    }
 }
+
+
+async function actualizarUsuario(req, res) {
+    try{
+        const id_usuario = req.params.id_usuario
+        const usuario_actualizado = req.body
+
+        const { error } = Validaciones.usuarioValidacion.validate(usuario_actualizado)
+
+        if (error) {
+            throw new BadRequestError("Información incomplerta o erronea, por favor verifíquela")
+        }
+
+        const resultado = await UsuarioServicio.actualizarUsuario(id_usuario, usuario_actualizado)
+
+        return res.status(resultado).json({
+            code: resultado,
+            msg: "Usuario actualizado con éxito :)"
+        })
+
+
+    } catch ( error ){
+        Logger.error("No se ha podido actualizar el usuario")
+        exceptionMessage = ""
+        exceptionCode = ""
+
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en iniciarSesion controlador"
+        }
+
+        Logger.error(`Error al actualizar el usuario: ${error}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
+    }
+}
+
+
+async function eliminarUsuario(req, res) {
+    try{
+        const id_usuario = req.params.id_usuario
+
+        const resultado = await UsuarioServicio.eliminarUsuario(id_usuario)
+
+        return res.status(resultado).json({
+            code: resultado,
+            msg: "Usuario eliminado con éxito :)"
+        })
+
+
+    } catch ( error ){
+        Logger.error("No se ha podido eliminar el usuario")
+        exceptionMessage = ""
+        exceptionCode = ""
+
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en iniciarSesion controlador"
+        }
+
+        Logger.error(`Error al actualizar el usuario: ${error}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
+    }
+}
+
+
+async function obtenerUsuarios(req, res) {
+    try{
+        const usuarios_resultado = await UsuarioServicio.obtenerUsuarios()
+
+        return res.status(CodigosEstado.OK).json({
+            code: CodigosEstado.OK,
+            msg: "Usuarios encontrados con éxito :)",
+            data: usuarios_resultado
+        })
+
+    } catch ( error ) {
+        exceptionMessage = ""
+        exceptionCode = ""
+
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en obtenerUsuarios controlador"
+        }
+
+        Logger.error(`Error al obtener usuarios: ${error}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
+    }
+}
+
 
 
 async function iniciarSesion(req, res) {
@@ -104,5 +227,8 @@ async function iniciarSesion(req, res) {
 
 module.exports = {
     registrarUsuario,
-    iniciarSesion
+    iniciarSesion,
+    actualizarUsuario,
+    eliminarUsuario,
+    obtenerUsuarios
 }

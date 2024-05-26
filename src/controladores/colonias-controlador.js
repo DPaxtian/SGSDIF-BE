@@ -2,6 +2,7 @@ const ColoniasServicio = require('../servicios/colonias_servicios')
 const Logger = require('../configuracion/logger')
 const CodigosEstado = require('../utileria/codigos-estado')
 const Validaciones = require('../utileria/validaciones-joi')
+const { HttpError, BadRequestError, NotFoundError } = require("../utileria/excepciones")
 
 
 async function crearColonia(req, res) {
