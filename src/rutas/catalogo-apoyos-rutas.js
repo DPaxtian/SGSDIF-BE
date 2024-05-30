@@ -87,19 +87,12 @@ const router = Router();
 router.post("/crear_apoyo", crearApoyo)
 /**
  * @swagger
- * /api/v1/catalogo_apoyos/buscar_apoyo/{tipo_apoyo}:
+ * /api/v1/catalogo_apoyos/buscar_apoyo:
  *   get:
- *     summary: Buscar apoyos por tipo
- *     description: Busca apoyos por el tipo especificado
+ *     summary: Buscar todos los apoyos registrados
+ *     description: Busca todos los apoyos registrados en la base de datos
  *     tags:
  *       - Catalogo Apoyos
- *     parameters:
- *       - in: path
- *         name: tipo_apoyo
- *         description: Tipo de apoyo a buscar
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Apoyos encontrados exitosamente
@@ -114,7 +107,7 @@ router.post("/crear_apoyo", crearApoyo)
  *                   type: string
  *             example:
  *               code: 201
- *               msg: "Apoyos de tipo tipo_apoyo encontrados"
+ *               msg: "Apoyos encontrados"
  *               data: [
  *                      {
  *                      _id: "661c6e8257f25b8df4bbc154",
@@ -154,7 +147,7 @@ router.post("/crear_apoyo", crearApoyo)
  *               code: 500
  *               msg: "Ocurrio un error :("
  */
-router.get("/buscar_apoyo/:tipo_apoyo", buscarApoyosPorTipo)
+router.get("/buscar_apoyo", buscarApoyosPorTipo)
 /**
  * @swagger
  * /api/v1/catalogo_apoyos/actualizar_apoyo/{id_apoyo}:
