@@ -33,6 +33,27 @@ async function obtenerSolicitudes() {
 }
 
 
+async function obtenerSolicitudesPorID(id_solicitud) {
+    try {
+        const solicitudes_resultado = await Solicitud.findOne({ "_id": id_solicitud });
+
+        if (!solicitudes_resultado || solicitudes_resultado.length === 0) {
+            throw new NotFoundError(`No se ha encontrado la solicitud con el id: ${id_solicitud}`);
+        }
+
+        return solicitudes_resultado;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            Logger.warn(`No se ha encontrado la solicitud con el id: ${id_solicitud}`);
+            throw error;
+        } else {
+            Logger.error("Ha ocurrido un error buscando las solicitudes", { error, id_solicitud });
+            throw new InternalServerError("Ha ocurrido un error interno buscando las solicitudes");
+        }
+    }
+}
+
+
 async function obtenerSolicitudesPorCurp(curp) {
     try{
         const solicitudes_resultado = Solicitud.find({"curp": curp})
@@ -87,5 +108,6 @@ module.exports = {
     obtenerSolicitudes,
     actualizarSolicitud, 
     obtenerSolicitudesPorCurp,
-    cambiarEstadoSolicitud
+    cambiarEstadoSolicitud,
+    obtenerSolicitudesPorID
 }

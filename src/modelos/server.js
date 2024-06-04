@@ -2,11 +2,13 @@ const express = require("express")
 const cors = require('cors');
 const { swaggerUi, especificaciones } = require('../configuracion/configuracion-swagger');
 const validarToken = require('../middleware/autorizar_token')
+const multer = require('multer')
 
 class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
+        this.upload = multer({dest: 'uploads/'});
         this.middlewares();
         this.routes();
         this.setupSwagger();

@@ -200,7 +200,7 @@ async function iniciarSesion(req, res) {
         return res.header('token_acceso', token).json({
             code: CodigosEstado.OK,
             msg: "Inicio de sesion exitoso :)",
-            data: token
+            token_acceso: token
         })
 
 
