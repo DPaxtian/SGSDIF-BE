@@ -3,6 +3,7 @@ const Logger = require('../configuracion/logger')
 const CodigosEstado = require('../utileria/codigos-estado')
 const Validaciones = require('../utileria/validaciones-joi')
 const DriveServicio = require('../servicios/google-drive-servicios')
+const fs = require('fs')
 const { HttpError, BadRequestError, NotFoundError } = require("../utileria/excepciones")
 
 
@@ -148,11 +149,83 @@ async function actualizarSolicitud(req, res) {
 }
 
 
-async function subirArchivo(req, res) {
+async function subirArchivoSolicitud(req, res) {
     try {
-        await DriveServicio.crearCarpeta("carpeta_prueba")
-    } catch (error) {
+        const id_solicitud = req.params.id_solicitud
+        const archivo = req.file;
 
+        if (!archivo) {
+            throw new BadRequestError("No se ha proporcionado ningún archivo");
+        }
+
+        const client_id = process.env.CLIENT_ID
+        const client_secret = process.env.CLIENT_SECRET
+        const redirect_uri = process.env.REDIRECT_URI
+        const refresh_token = process.env.REFRESH_TOKEN
+
+        const clienteDrive = DriveServicio.crearClienteDrive(client_id, client_secret, redirect_uri, refresh_token)
+        const datos_solicitud = await solicitudesServicio.obtenerSolicitudesPorID(id_solicitud)
+
+        let id_carpeta_padre = await DriveServicio.buscarCarpeta(clienteDrive, datos_solicitud.curp)
+        let id_carpeta_hija = ""
+
+        if (id_carpeta_padre !== undefined) {
+            id_carpeta_hija = await DriveServicio.buscarCarpeta(clienteDrive, datos_solicitud.fecha_captura.toDateString(), id_carpeta_padre.id)
+
+            if (id_carpeta_hija === undefined) {
+                id_carpeta_hija = await DriveServicio.crearCarpeta(clienteDrive, datos_solicitud.fecha_captura.toDateString(), id_carpeta_padre.id)
+            }
+        } else {
+            id_carpeta_padre = await DriveServicio.crearCarpeta(clienteDrive, datos_solicitud.curp)
+            id_carpeta_hija = await DriveServicio.crearCarpeta(clienteDrive, datos_solicitud.fecha_captura.toDateString(), id_carpeta_padre.id)
+        }
+
+        const archivoSubido = await DriveServicio.guardarArchivo(
+            clienteDrive,
+            archivo.originalname,
+            archivo.path,
+            archivo.mimetype,
+            id_carpeta_hija.id
+        );
+
+        fs.unlink(archivo.path, (err) => {
+            if (err) {
+                console.error('Error al eliminar el archivo temporal:', err);
+            } else {
+                console.log('Archivo temporal eliminado');
+            }
+        });
+
+        if(archivoSubido !== undefined){
+            datos_solicitud.archivos.push(archivoSubido.id)
+
+            solicitudesServicio.actualizarSolicitud(datos_solicitud._id, datos_solicitud)
+        }
+
+        return res.status(200).json({
+            code: 200,
+            msg: "Archivo subido con éxito",
+            archivo: archivoSubido
+        });
+
+        
+    } catch (error) {
+        exceptionMessage = ""
+        exceptionCode = ""
+
+        if (error instanceof HttpError) {
+            exceptionCode = error.codigoEstado
+            exceptionMessage = error.message
+        } else {
+            exceptionCode = CodigosEstado.INTERNAL_SERVER_ERROR
+            exceptionMessage = "Ha ocurrido un error en subirArchivosSolicitud controlador"
+        }
+
+        Logger.error(`Error al subir los archivos de la solicitud: ${error.message}`)
+        return res.status(exceptionCode).json({
+            code: exceptionCode,
+            msg: exceptionMessage
+        });
     }
 }
 
@@ -161,6 +234,6 @@ module.exports = {
     registrarSolicitud,
     obtenerSolicitudes,
     actualizarSolicitud,
-    subirArchivo,
+    subirArchivoSolicitud,
     obtenerSolicitudesPorCurp
 }
