@@ -39,6 +39,28 @@ async function buscarApoyoPorTipo() {
             Logger.warn(`No se encontraron apoyos`);
             throw error;
         } else {
+            Logger.error("Error buscando los apoyos", { error });
+            throw new InternalServerError("Ha ocurrido un error interno buscando los apoyos");
+        }
+    }
+}
+
+
+
+async function buscarApoyoPersonalizado(query) {
+    try {
+        const resultadoApoyo = await CatalogoApoyos.find(query);
+
+        if (!resultadoApoyo || resultadoApoyo.length === 0) {
+            throw new NotFoundError("No se encontraron apoyos");
+        } else {
+            return resultadoApoyo;
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            Logger.warn(`No se encontraron apoyos`);
+            throw error;
+        } else {
             Logger.error("Error buscando los apoyos");
             throw new InternalServerError("Ha ocurrido un error interno buscando los apoyos");
         }
@@ -95,5 +117,6 @@ module.exports = {
     nuevoApoyo,
     buscarApoyoPorTipo,
     actualizarApoyo,
-    eliminarApoyo
+    eliminarApoyo,
+    buscarApoyoPersonalizado
 }
