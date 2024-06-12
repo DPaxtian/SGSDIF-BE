@@ -26,7 +26,13 @@ const opciones = {
       },
     ],
   },
-  apis: ['src/rutas/solicitudes-rutas.js', 'src/rutas/catalogo-apoyos-rutas.js', 'src/rutas/colonias-rutas.js', 'src/rutas/usuarios-rutas.js', 'src/rutas/iniciar-sesion-rutas.js'],
+  apis: ['src/rutas/solicitudes-rutas.js',
+    'src/rutas/catalogo-apoyos-rutas.js',
+    'src/rutas/colonias-rutas.js',
+    'src/rutas/usuarios-rutas.js',
+    'src/rutas/iniciar-sesion-rutas.js',
+    'src/rutas/reportes-rutas.js'
+  ],
 };
 
 

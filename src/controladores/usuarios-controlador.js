@@ -20,7 +20,7 @@ async function registrarUsuario(req, res) {
         if (error) {
             codigoResultado = CodigosEstado.BAD_REQUEST;
             mensajeRespuesta = 'Información incompleta o erronea, por favor verifiquela';
-            throw new Error('Información incompleta o erronea, por favor verifiquela');
+            throw new BadRequestError('Información incompleta o erronea, por favor verifiquela');
         } else {
             const salt = await bcrypt.genSalt(10);
             const hash_contrasena = await bcrypt.hash(datosUsuario.contrasena, salt);
