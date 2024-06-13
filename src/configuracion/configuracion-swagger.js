@@ -31,7 +31,8 @@ const opciones = {
     'src/rutas/colonias-rutas.js',
     'src/rutas/usuarios-rutas.js',
     'src/rutas/iniciar-sesion-rutas.js',
-    'src/rutas/reportes-rutas.js'
+    'src/rutas/reportes-rutas.js',
+    'src/rutas/entrega-apoyo-rutas.js'
   ],
 };
 

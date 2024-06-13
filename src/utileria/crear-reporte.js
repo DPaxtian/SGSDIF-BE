@@ -295,7 +295,7 @@ async function generarTipoApoyo(tipo_apoyo) {
         if (tipo_apoyo === "Todos") {
             resultado_consulta = await ServicioApoyo.buscarApoyoPorTipo();
         } else {
-            const query = { identificador: tipo_apoyo };
+            const query = { _id: tipo_apoyo };
             resultado_consulta = await ServicioApoyo.buscarApoyoPersonalizado(query);
         }
 

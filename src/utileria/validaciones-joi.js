@@ -37,6 +37,14 @@ const catalogosValidacion = Joi.object({
     descripcion: Joi.string().required()
 })
 
+const entregaValidacion = Joi.object({
+    fecha_de_entrega: Joi.date().required(),
+    identificador_de_apoyo: Joi.string().required(),
+    cantidad: Joi.number().required(),
+    direccion: Joi.string().required(),
+    identificador_de_solicitud: Joi.string().required()
+})
+
 
 const usuarioValidacion = Joi.object({
     nombre: Joi.string().required(),
@@ -64,5 +72,6 @@ module.exports = {
     catalogosValidacion,
     usuarioValidacion,
     inicioSesionValidacion,
-    curpValidacion
+    curpValidacion,
+    entregaValidacion
 }
