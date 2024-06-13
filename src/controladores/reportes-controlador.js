@@ -3,6 +3,7 @@ const Logger = require("../configuracion/logger")
 const { HttpError, BadRequestError, NotFoundError } = require("../utileria/excepciones")
 const ReporteUtileria = require("../utileria/crear-reporte")
 const fs = require('fs')
+const path = require('path');
 
 async function generarReporteSolicitudes(req, res) {
     let codigoResultado = CodigosEstado.INTERNAL_SERVER_ERROR;
@@ -11,7 +12,6 @@ async function generarReporteSolicitudes(req, res) {
     try {
         const reporte_parametros = req.body;
         let pdfPath = "";
-        let nombreArchivo = "reporte.pdf"; // Puedes ajustar esto según el tipo de reporte
 
         // 1 o 2: Reporte de solicitudes
         // 3 o 4: Reporte de apoyos
@@ -22,6 +22,8 @@ async function generarReporteSolicitudes(req, res) {
         } else if (reporte_parametros.tipo_reporte === "3" || reporte_parametros.tipo_reporte === "4") {
             // Implementar lógica para generar reporte de apoyos si es necesario
         }
+
+        const nombreArchivo = path.basename(pdfPath); // Extrae el nombre del archivo de la ruta
 
         res.setHeader('Content-Disposition', `attachment; filename="${nombreArchivo}"`);
         res.setHeader('Content-Type', 'application/pdf');
