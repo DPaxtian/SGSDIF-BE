@@ -4,11 +4,6 @@ const { HttpError, BadRequestError, NotFoundError } = require("../utileria/excep
 const ReporteUtileria = require("../utileria/crear-reporte")
 const fs = require('fs')
 
-const fs = require('fs');
-const path = require('path');
-const CodigosEstado = require('./path/to/CodigosEstado'); // Asegúrate de ajustar la ruta correcta
-const ReporteUtileria = require('./path/to/ReporteUtileria'); // Asegúrate de ajustar la ruta correcta
-
 async function generarReporteSolicitudes(req, res) {
     let codigoResultado = CodigosEstado.INTERNAL_SERVER_ERROR;
     let mensajeRespuesta = "Ocurrió un error :(";
@@ -60,11 +55,6 @@ async function generarReporteSolicitudes(req, res) {
         });
     }
 }
-
-module.exports = { generarReporteSolicitudes };
-
-
-
 
 
 module.exports = {
