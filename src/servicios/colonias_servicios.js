@@ -33,7 +33,20 @@ async function obtenerColonias() {
 }
 
 
+async function obtenerColoniasPersonalizado(query){
+    try {
+        const colonias_resultado = await Colonia.find(query);
+
+        return colonias_resultado;
+    } catch (error) {
+        Logger.error("Ha ocurrido un error buscando las colonias");
+        throw new InternalServerError("Ha ocurrido un error interno buscando las colonias");
+    }
+}
+
+
 module.exports = {
     nuevaColonia,
-    obtenerColonias
+    obtenerColonias,
+    obtenerColoniasPersonalizado,
 }
