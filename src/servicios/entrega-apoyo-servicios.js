@@ -23,4 +23,4 @@ async function nuevaEntrega(infoEntrega) {
     }
 }
 
-module.exports = nuevaEntrega
+module.exports = {nuevaEntrega}
