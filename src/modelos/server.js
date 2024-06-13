@@ -27,7 +27,7 @@ class Server {
         this.app.use('/api/v1/catalogo_apoyos', validarToken, require('../rutas/catalogo-apoyos-rutas'));
         this.app.use('/api/v1/colonias', validarToken, require('../rutas/colonias-rutas'));
         this.app.use('/api/v1/usuarios', validarToken, require('../rutas/usuarios-rutas'));
-        this.app.use('/api/v1/entregas_apoyos', validarToken, require('../rutas/entrega-apoyos-rutas'));
+        this.app.use('/api/v1/entregas_apoyos', validarToken, require('../rutas/entrega-apoyo-rutas'));
         this.app.use('/api/v1/login', require('../rutas/iniciar-sesion-rutas'));
         this.app.use('/api/v1/reportes', validarToken, require('../rutas/reportes-rutas'))
     }

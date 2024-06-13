@@ -34,4 +34,4 @@ async function crearEntrega(req, res) {
     })
 }
 
-module.exports = crearEntrega
+module.exports = { crearEntrega };
