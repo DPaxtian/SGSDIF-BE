@@ -1,4 +1,5 @@
 const EntregaApoyoServicio = require("../servicios/entrega-apoyo-servicios")
+const { obtenerTodasEntregas } = require('../servicios/entrega-apoyo-servicios')
 const Logger = require("../configuracion/logger")
 const CodigosEstado = require("../utileria/codigos-estado")
 const Validaciones = require('../utileria/validaciones-joi')
@@ -34,4 +35,20 @@ async function crearEntrega(req, res) {
     })
 }
 
-module.exports = { crearEntrega };
+async function listarEntregas(req, res) {
+    try {
+        const resultado = await obtenerTodasEntregas()
+        return res.status(resultado.code).json({
+            code: resultado.code,
+            data: resultado.data
+        })
+    } catch (error) {
+        Logger.error(`Ha ocurrido un error en listarEntregas controlador: ${error}`)
+        return res.status(CodigosEstado.INTERNAL_SERVER_ERROR).json({
+            code: CodigosEstado.INTERNAL_SERVER_ERROR,
+            msg: "Ha ocurrido un error en el servidor"
+        })
+    }
+}
+
+module.exports = { crearEntrega,listarEntregas };
