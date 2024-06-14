@@ -12,7 +12,8 @@ const solicitudValidacion = Joi.object({
     telefonos: Joi.array().required(),
     apoyo_solicitado: Joi.string(),
     observaciones: Joi.string(),
-    archivos: Joi.array()
+    archivos: Joi.array(),
+    estado: Joi.string()
 })
 
 

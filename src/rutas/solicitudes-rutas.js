@@ -26,6 +26,8 @@ const router = Router();
  *             properties:
  *               no:
  *                 type: integer
+ *               estado:
+ *                  type: string
  *               fecha_captura:
  *                 type: string
  *                 format: date
@@ -62,6 +64,7 @@ const router = Router();
  *                 type: string
  *             example:
  *               no: 1
+ *               estado: "Solicitado"
  *               fecha_captura: "2024-03-17"
  *               nombre: "John"
  *               apellido_paterno: "Doe"

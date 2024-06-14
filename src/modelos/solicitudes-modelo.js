@@ -7,6 +7,10 @@ const SolicitudesSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
+        estado: {
+            type: String,
+            required: true
+        },
         fecha_captura: {
             type: Date,
             default: ""
