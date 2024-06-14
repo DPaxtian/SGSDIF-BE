@@ -12,7 +12,8 @@ const solicitudValidacion = Joi.object({
     telefonos: Joi.array().required(),
     apoyo_solicitado: Joi.string(),
     observaciones: Joi.string(),
-    archivos: Joi.array()
+    archivos: Joi.array(),
+    estado: Joi.string()
 })
 
 
@@ -35,6 +36,14 @@ const catalogosValidacion = Joi.object({
     tipo: Joi.string().valid("Municipal", "Estatal").required(),
     cantidad: Joi.number().required(),
     descripcion: Joi.string().required()
+})
+
+const entregaValidacion = Joi.object({
+    fecha_de_entrega: Joi.date().required(),
+    identificador_de_apoyo: Joi.string().required(),
+    cantidad: Joi.number().required(),
+    direccion: Joi.string().required(),
+    identificador_de_solicitud: Joi.string().required()
 })
 
 
@@ -64,5 +73,6 @@ module.exports = {
     catalogosValidacion,
     usuarioValidacion,
     inicioSesionValidacion,
-    curpValidacion
+    curpValidacion,
+    entregaValidacion
 }

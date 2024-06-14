@@ -7,7 +7,6 @@ const { HttpError, BadRequestError, InternalServerError, NotFoundError } = requi
 async function nuevoApoyo(infoApoyo) {
     try {
         const apoyoEncontrado = await CatalogoApoyos.findOne({ "identificador": infoApoyo.identificador })
-
         if (apoyoEncontrado !== null) {
             apoyoEncontrado.cantidad += infoApoyo.cantidad
 
@@ -26,21 +25,43 @@ async function nuevoApoyo(infoApoyo) {
 }
 
 
-async function buscarApoyoPorTipo(tipoApoyo) {
+async function buscarApoyoPorTipo() {
     try {
-        const resultadoApoyo = await CatalogoApoyos.find({ tipo: tipoApoyo });
+        const resultadoApoyo = await CatalogoApoyos.find();
 
         if (!resultadoApoyo || resultadoApoyo.length === 0) {
-            throw new NotFoundError(`No se encontraron apoyos del tipo: ${tipoApoyo}`);
+            throw new NotFoundError("No se encontraron apoyos");
         } else {
             return resultadoApoyo;
         }
     } catch (error) {
         if (error instanceof NotFoundError) {
-            Logger.warn(`No se encontraron apoyos del tipo: ${tipoApoyo}`);
+            Logger.warn(`No se encontraron apoyos`);
             throw error;
         } else {
-            Logger.error("Error buscando los apoyos", { error, tipoApoyo });
+            Logger.error("Error buscando los apoyos", { error });
+            throw new InternalServerError("Ha ocurrido un error interno buscando los apoyos");
+        }
+    }
+}
+
+
+
+async function buscarApoyoPersonalizado(query) {
+    try {
+        const resultadoApoyo = await CatalogoApoyos.find(query);
+
+        if (!resultadoApoyo || resultadoApoyo.length === 0) {
+            throw new NotFoundError("No se encontraron apoyos");
+        } else {
+            return resultadoApoyo;
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            Logger.warn(`No se encontraron apoyos`);
+            throw error;
+        } else {
+            Logger.error("Error buscando los apoyos");
             throw new InternalServerError("Ha ocurrido un error interno buscando los apoyos");
         }
     }
@@ -96,5 +117,6 @@ module.exports = {
     nuevoApoyo,
     buscarApoyoPorTipo,
     actualizarApoyo,
-    eliminarApoyo
+    eliminarApoyo,
+    buscarApoyoPersonalizado
 }

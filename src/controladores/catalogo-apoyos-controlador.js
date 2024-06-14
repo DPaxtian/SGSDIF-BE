@@ -42,16 +42,15 @@ async function buscarApoyosPorTipo(req, res) {
     let mensajeRespuesta = "Ocurrio un error :("
 
     try {
-        let tipoApoyo = req.params.tipo_apoyo
 
-        datosResultado = await CatalogoApoyosServicio.buscarApoyoPorTipo(tipoApoyo)
+        datosResultado = await CatalogoApoyosServicio.buscarApoyoPorTipo()
 
         if (datosResultado.length === 0) {
             codigoResultado = CodigosEstado.NOT_FOUND
             mensajeRespuesta = "No se han encontrado apoyos"
         } else {
             codigoResultado = CodigosEstado.OK
-            mensajeRespuesta = `Apoyos de tipo ${tipoApoyo} encontrados`
+            mensajeRespuesta = `Apoyos encontrados`
         }
 
         return res.status(codigoResultado).json({

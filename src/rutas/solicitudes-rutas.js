@@ -1,7 +1,8 @@
 const { Router } = require('express');
-const { registrarSolicitud, obtenerSolicitudes, actualizarSolicitud, subirArchivo, obtenerSolicitudesPorCurp } = require("../controladores/solicitudes-controlador")
+const { registrarSolicitud, obtenerSolicitudes, actualizarSolicitud, subirArchivoSolicitud, obtenerSolicitudesPorCurp } = require("../controladores/solicitudes-controlador")
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const router = Router();
-
 /**
  * @swagger
  * tags:
@@ -25,6 +26,8 @@ const router = Router();
  *             properties:
  *               no:
  *                 type: integer
+ *               estado:
+ *                  type: string
  *               fecha_captura:
  *                 type: string
  *                 format: date
@@ -61,6 +64,7 @@ const router = Router();
  *                 type: string
  *             example:
  *               no: 1
+ *               estado: "Solicitado"
  *               fecha_captura: "2024-03-17"
  *               nombre: "John"
  *               apellido_paterno: "Doe"
@@ -444,7 +448,75 @@ router.put("/actualizar_solicitud/:id_solicitud", actualizarSolicitud)
  *               msg: "Solicitud no creada :)"
  */
 router.get("/obtener_solicitudes_curp/:curp", obtenerSolicitudesPorCurp)
-router.post("/subir_archivo", subirArchivo)
+/**
+ * @swagger
+ * /api/v1/solicitudes/subir_archivo/{id_solicitud}:
+ *   post:
+ *     summary: Subir un archivo para una solicitud
+ *     description: Permite subir un archivo asociado a una solicitud
+ *     tags:
+ *      - Solicitudes
+ *     parameters:
+ *       - in: path
+ *         name: id_solicitud
+ *         description: ID de la solicitud a la cual se asociará el archivo
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               archivo:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Archivo subido con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 archivo:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *       400:
+ *         description: No se ha proporcionado ningún archivo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ */
+router.post("/subir_archivo/:id_solicitud", upload.single('archivo'), subirArchivoSolicitud);
+
 
 
 module.exports = router;
