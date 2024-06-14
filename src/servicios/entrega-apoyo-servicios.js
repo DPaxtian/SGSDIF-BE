@@ -23,4 +23,17 @@ async function nuevaEntrega(infoEntrega) {
     }
 }
 
-module.exports = {nuevaEntrega}
+async function obtenerTodasEntregas() {
+    try {
+        const entregas = await EntregaApoyo.find()
+        return {
+            code: CodigosEstado.OK,
+            data: entregas
+        }
+    } catch (error) {
+        Logger.error(`Ha ocurrido un error en el servidor: ${error}`)
+        throw new InternalServerError("Ha ocurrido un error en el servidor")
+    }
+}
+
+module.exports = { nuevaEntrega, obtenerTodasEntregas }
