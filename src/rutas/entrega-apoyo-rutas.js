@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { crearEntrega } = require("../controladores/entrega-apoyo-controlador")
+const { crearEntrega,listarEntregas } = require("../controladores/entrega-apoyo-controlador")
 const router = Router();
 
 /**
@@ -85,5 +85,65 @@ const router = Router();
  *               msg: "Entrega no creada :("
  */
 router.post("/crear_entrega", crearEntrega)
+
+
+/**
+ * @swagger
+ * /api/v1/entregas_apoyos/listar_entregas:
+ *   get:
+ *     summary: Listar todas las entregas
+ *     description: Recupera una lista de todas las entregas registradas
+ *     tags:
+ *      - Entregas Apoyos
+ *     responses:
+ *       200:
+ *         description: Lista de entregas recuperada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       fecha_de_entrega:
+ *                         type: string
+ *                         format: date-time
+ *                       identificador_de_apoyo:
+ *                         type: string
+ *                       cantidad:
+ *                         type: number
+ *                       direccion:
+ *                         type: string
+ *                       identificador_de_solicitud:
+ *                         type: string
+ *             example:
+ *               code: 200
+ *               data:
+ *                 - fecha_de_entrega: "2024-06-10T10:30:00.000Z"
+ *                   identificador_de_apoyo: "L1"
+ *                   cantidad: 5
+ *                   direccion: "123 Calle Principal, Ciudad, Estado"
+ *                   identificador_de_solicitud: "S123"
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *             example:
+ *               code: 500
+ *               msg: "Ha ocurrido un error en el servidor"
+ */
+router.get("/listar_entregas", listarEntregas)
 
 module.exports = router;
